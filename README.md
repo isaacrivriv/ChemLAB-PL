@@ -1,37 +1,25 @@
-## Welcome to GitHub Pages
+## Welcome to ChemLAB
 
-You can use the [editor on GitHub](https://github.com/isaacrivriv/ChemLAB-PL/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+Chemistry is a part of every student's curriculum, whether as a mandatory class in high school or a base class in college. It is considered one of the most difficult, out of base classes for most majors and in some cases, first-year students don't have a good science background for learning chemistry topics and tend to struggle the most. This functional programming language aims to aid students in their development of chemistry skills, including equation balancing, conversions, and periodic table components. Some of these concepts we have experienced some struggle and know that others could benefit from having a resource to learn and place to practice.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
 
-### Markdown
+### Language Features
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+Some of the language features included are:
+- Conversions
+- element and compound bonding
+- balancing and verifying balancing
+- basic comparation and algebraic expressions
 
-```markdown
-Syntax highlighted code block
+### Examples
 
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+Using ChemLAB we can easily bond elements, balance the result and get the resulting details of the balanced compound like so:
 ```
+  [elem1=form(1)&form(8)]
+  [elem1=elem1|elem1]
+  [detail(elem1)]
+```
+**More examples will be added as we work through our implementation**
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+Try it out! Just clone our repo and start programming yourself!
 
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/isaacrivriv/ChemLAB-PL/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.

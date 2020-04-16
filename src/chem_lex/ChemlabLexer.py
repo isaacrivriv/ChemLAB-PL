@@ -6,7 +6,6 @@ class ChemLABLexer:
 
     tokens = toks.tokens
 
-    t_Number = r'[0-9]+'
     t_Lparen = r'\('
     t_Rparen = r'\)'
     t_Lbrack = r'\['
@@ -17,6 +16,16 @@ class ChemLABLexer:
     t_Equal = r'='
     t_Plus = r'\+'
     t_Minus = r'\-'
+
+    def t_Float(self, t):
+        r'\d+.\d+'
+        t.value = float(t.value)
+        return t
+
+    def t_Integer(self, t):
+        r'\d+'
+        t.value = int(t.value)
+        return t
 
     def t_Primtok(self, t):
         r'form|balanced\?'

@@ -8,7 +8,8 @@ reserved = {
 }
 
 tokens = [
-    'Number',
+    'Integer',
+    'Float',
     'Idtok',
     'Lparen',
     'Rparen',

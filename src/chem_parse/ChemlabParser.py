@@ -41,7 +41,7 @@ class ChemlabParser:
         '''Term : Sign Term
                         | Factor Lparen ExpList Rparen
                         | Factor
-                        | Int
+                        | Number
                         | Bool
                         | Empty'''
         # TODO: Fill logic here
@@ -197,12 +197,13 @@ class ChemlabParser:
         p[0] = p[1]
 
 
-    def p_int(self, p):
-        '''Int : Number'''
+    def p_number(self, p):
+        '''Number : Integer
+                  | Float'''
         # TODO: Fill logic here
         if self.trace:
             print("--Number: "+str(p[1]))
-        p[0] = int(p[1])
+        p[0] = p[1]
 
 
     def p_error(self, p):

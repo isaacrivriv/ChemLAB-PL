@@ -2,3 +2,4 @@
 __pycache__
 /src/chem_parse/parser.out
 /src/chem_parse/parsetab.py
+/venv/

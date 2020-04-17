@@ -197,7 +197,7 @@ class ChemlabParser:
         p[0] = p[1]
 
 
-    def p_int(self, p):
+    def p_number(self, p):
         '''Number : Integer
                   | Float'''
         # TODO: Fill logic here

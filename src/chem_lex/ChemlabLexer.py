@@ -18,7 +18,7 @@ class ChemLABLexer:
     t_Minus = r'\-'
 
     def t_Float(self, t):
-        r'\d+.\d+'
+        r'\d+\.\d+'
         t.value = float(t.value)
         return t
 

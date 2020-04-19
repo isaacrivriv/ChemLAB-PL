@@ -2,6 +2,29 @@ METAL = 'Metal'
 NON_METAL = 'Non Metal'
 METALLOID = 'Metalloid'
 
+
+# Default units are expressed as fallows:
+# Da - Dalton
+# g - grams
+# cm - centimeters
+# K - Kelvin
+# J - Joules
+
+DEFAULT_UNITS = {
+    'atomic_weight': 'Da',
+    'density': 'g/cm^3',
+    'melting_point': 'K',
+    'boiling_point': 'K',
+    'heat_capacity': 'J/(g K)'
+}
+
+# Contains info about the elements in the periodic table like: atomic number, symbol, name, group, period,
+# atomic weight, density, melting point ,  boiling point, heat capacity and electronegativity. Some information may
+# not be available for some elements, in this cases the value is set to None.
+
+# precise attribute in some elements can be False if the atomic weight, density or melting point of an element
+# can't be precisely measured and the value is just an estimate. If precise is set to True the value is acceptable.
+
 PERIODIC_TABLE = {
     '1': {'atomic_num': 1, 'symbol': 'H', 'name': 'Hydrogen', 'group': 1, 'period': 1, 'atomic_weight': 1.008,
           'density': 8.988e-05, 'melting_point': 14.01, 'boiling_point': 20.28, 'heat_capacity': 14.304,
@@ -356,4 +379,5 @@ PERIODIC_TABLE = {
             'electronegativity': None, 'type': None},
     '118': {'atomic_num': 118, 'symbol': 'Og', 'name': 'Oganesson', 'group': 18, 'period': 7, 'precise': False,
             'atomic_weight': 294, 'density': 5.0, 'melting_point': 320, 'boiling_point': 350, 'heat_capacity': None,
-            'electronegativity': None, 'type': None}}
+            'electronegativity': None, 'type': None}
+}

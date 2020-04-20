@@ -18,9 +18,10 @@ DEFAULT_UNITS = {
     'heat_capacity': 'J/(g K)'
 }
 
-# Contains info about the elements in the periodic table like: atomic number, symbol, name, group, period,
-# atomic weight, density, melting point ,  boiling point, heat capacity and electronegativity. Some information may
-# not be available for some elements, in this cases the value is set to None.
+# Contains info about the elements in the periodic table like: atomic number, symbol, name, group (number column,
+# represented by integers [1, 18] ), period (number row, represented by integers from [1, 7] ), atomic weight,
+# density, melting point ,  boiling point, heat capacity and electronegativity. Some information may not be available
+# for some elements, in this cases the value is set to None.
 
 # precise attribute in some elements can be False if the atomic weight, density or melting point of an element
 # can't be precisely measured and the value is just an estimate. If precise is set to True the value is acceptable.
@@ -257,7 +258,7 @@ PERIODIC_TABLE = {
     '77': {'atomic_num': 77, 'symbol': 'Ir', 'name': 'Iridium', 'group': 9, 'period': 6, 'atomic_weight': 192.217,
            'density': 22.56, 'melting_point': 2719, 'boiling_point': 4701, 'heat_capacity': 0.131,
            'electronegativity': 2.2, 'precise': True, 'type': METAL},
-    '78': {'atomic_num': 78, 'symbol': 'Pt', 'name': 'Platinum', 'group': 10, 'period': 6, 'atomic_weight': '195.084*9',
+    '78': {'atomic_num': 78, 'symbol': 'Pt', 'name': 'Platinum', 'group': 10, 'period': 6, 'atomic_weight': 195.084,
            'density': 21.46, 'melting_point': 2041.4, 'boiling_point': 4098, 'heat_capacity': 0.133,
            'electronegativity': 2.28, 'precise': True, 'type': METAL},
     '79': {'atomic_num': 79, 'symbol': 'Au', 'name': 'Gold', 'group': 11, 'period': 6, 'atomic_weight': 196.96657,

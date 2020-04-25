@@ -1,4 +1,4 @@
-import periodic_table
+from element import Element
 
 
 class Compound:
@@ -7,6 +7,7 @@ class Compound:
         # a dictionary with elements as keys and the number of atoms as values
         # i.e. {'H': 2, 'O': 1}
         self.elements = elements
+        self.mass = self.calculate_mass()       # given as a tuple (mass quantity, mass unit)
         if bond_type == 'covalent':
             self.type = 'molecule'
         elif bond_type == 'ionic':
@@ -18,10 +19,6 @@ class Compound:
         else:
             self.type = None
 
-    def react(self, compound2):
-        reaction = []
-        return reaction
-
     def __str__(self):
         s = '['
         for x, y in self.elements.items():
@@ -29,8 +26,10 @@ class Compound:
                 s += f'{x}_{y} '
             else:
                 s += f'{x}'
-        return s.rstrip() + f']\t type: {self.type}'
+        return s.rstrip() + f'] \ttype: {self.type} \tmass: {self.mass[0]}'
 
-
-e1 = {'H': 2, 'O': 1}
-print(Compound(e1, 'covalent'))
+    def calculate_mass(self):
+        mass = 0
+        for e in self.elements:
+            mass += Element(e).info['atomic_weight'] * self.elements[e]
+        return mass, 'g/mol'

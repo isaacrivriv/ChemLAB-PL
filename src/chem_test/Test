@@ -1,3 +1,37 @@
-^^ Should ignore this
+^^ Should ignore this cause this is just a comment
+[test=36;][detail(test)]
+^^ Not Full working just placeholder code
+[elemBond=form(23);]
+[balanced?(elemBond)]
 [HNO3=form(14);]
 [detail (HNO3)]
+[ 
+if balanced?(elemBond) then 
+    detail(TRUE) 
+else 
+    detail(FALSE)
+]
+[detail (32,31.4)]
+[detail (32,31.4,TRUE)]
+[ 
+if if balanced?(elemBond) 
+    then TRUE 
+    else FALSE ^^ We could say this is similar to the ternary operator in python. Obviously this is very unnecesary code just for a demonstration
+then detail(TRUE) 
+else detail(FALSE)
+]
+[
+    detail(convert(HNO3, 34, ft, cme))
+]
+^^ Prefixes could add up to make new prefixes and should be defined separate from unit
+[
+    detail(convert(HNO3, 2.9, ft, c c me))
+]
+^^ Grammar also allows some bit crazy things to be defined like this
+[ t = r = x = 23;;;]
+[detail(t,r,x)]
+^^ Not implemented yet. Will give error if uncommented.
+^^ Also missing convert to operation which grammar is unsupported to for now
+^^ [elemBond=form(14)&form(52);]
+^^ [elemBond=elemBond|;]
+^^ [ if balanced?(elemBond) then detail(TRUE) else elemBond=elemBond|;]

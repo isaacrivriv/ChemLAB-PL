@@ -1,4 +1,4 @@
-from periodic_table import PERIODIC_TABLE
+from src.periodic_table import PERIODIC_TABLE
 
 
 class Element:

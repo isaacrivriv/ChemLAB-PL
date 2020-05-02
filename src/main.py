@@ -1,5 +1,5 @@
-import chem_lex.ChemlabLexer as Lexer
-import chem_parse.ChemlabParser as Parser
+import src.chem_lex.ChemlabLexer as Lexer
+import src.chem_parse.ChemlabParser as Parser
 import sys
 
 

@@ -1,4 +1,4 @@
-from element import Element
+from src.element import Element
 
 
 class Compound:

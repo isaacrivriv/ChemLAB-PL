@@ -1,6 +1,7 @@
 import ply.yacc as yacc
 import src.chem_lex.ChemlabTokens as toks
 import src.chem_parse.ParsingUtils as utils
+from src.element import Element
 import re
 
 
@@ -158,13 +159,15 @@ class ChemlabParser:
         # TODO: Placeholder code. Need to fill this with the proper calls
         if self.trace:
             print("--FormFunc: " + str(p[3]))
+        element = Element(str(p[3]))
         p[0] = 27
 
     def p_unit(self, p):
         '''Unit : UnitTok
                         | PrefixTok Unit'''
         # TODO: Maybe a lookup is necessary here? Need to check whats the best way to implement this.
-        # Language allows for this to have prefixes and prefixes and so on so on so we need to think on how to implement this
+        # Language allows for this to have prefixes and prefixes and so on so on so we need to think on how to implement
+        # this
         if self.trace:
             print("--Unit")
         if type(p[1]) is not tuple:

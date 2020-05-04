@@ -1,6 +1,7 @@
 import ply.yacc as yacc
 import chem_lex.ChemlabTokens as toks
 import chem_parse.ParsingUtils as utils
+from element import Element
 import re
 
 
@@ -161,10 +162,9 @@ class ChemlabParser:
         '''FormFunc : form Lparen Id checkIdIsInteger Rparen
                         | form Lparen Integer Rparen'''
         # TODO: Probably do a lookup of a util function that matches what was passed and pass the result along the tree
-        # TODO: Placeholder code. Need to fill this with the proper calls
         if self.trace:
             print("--FormFunc: "+str(p[3]))
-        p[0] = 27
+        p[0] = Element(str(p[3]))
 
 
     def p_unit(self, p):

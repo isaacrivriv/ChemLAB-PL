@@ -3,7 +3,7 @@ import sys
 sys.path.insert(1, '/Users/valericita/Documents/GitHub/ChemLAB-PL/src/chem_lex')
 
 import ChemlabTokens
-import Element from element
+from element import Element
 def convertTo(num, Unit, newUnit):
     ### need to redo with the parser
     if(Unit in ChemlabTokens.unit_prefix and newUnit in ChemlabTokens.unit_prefix):
@@ -19,14 +19,23 @@ def convertTo(el ,num, Unit, newUnit):
         raise TypeError("Not an element. Cannot perform operation")
     else:
         amu = el.dictionary['atomic_weight']
-        elif(Unit=='g'):
+        if(Unit=='g'):
             if(newUnit=='mol'):
-
+                result= num/amu
             elif(newUnit=='atoms'):
                 mol = num/amu
                 result = mol * (6.02*(10**23))
         elif(Unit == 'mol'):
+            if newUnit=='atoms':
+                result = result = num*(6.02*(10**23))
+            if newUnit=='g':
+                result = num*amu
         elif(Unit=='atoms'):
+            if newUnit=='mol':
+                result = num/(6.02*(10**23))
+            if newUnit=='g':
+                mol = num/(6.02*(10**23))
+                result = mol * amu
         else:
             raise TypeError("It's not possible to make that conversion")
 
@@ -123,8 +132,3 @@ def convertTemp(num, Unit, newUnit):
     else:
         raise TypeError("It's not possible to make that conversion")
     return result
-
-
-
-##test
-print("result =   " + str(convertTo(1,'mi','ft')))

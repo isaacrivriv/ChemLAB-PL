@@ -108,6 +108,8 @@ class ChemlabParser:
         else:  # We found either a Factor, Number or Bool at this point so just pass it along
             p[0] = p[1]
 
+
+
     def p_factor(self, p):
         '''Factor : Lparen Exp Rparen
                         | Builtin
@@ -152,6 +154,13 @@ class ChemlabParser:
                 print("----form: " + str(p[1]))
             p[0]["value"] = p[1]
 
+    def p_compound(self, p):
+        '''Compound : Compound
+                    | FormFunc Bond FormFunc
+                    | FormFunc'''
+        # print(p[2])
+        print("OK")
+
     def p_form_manage(self, p):
         '''FormFunc : form Lparen Id checkIdIsInteger Rparen
                         | form Lparen Integer Rparen'''
@@ -159,8 +168,11 @@ class ChemlabParser:
         # TODO: Placeholder code. Need to fill this with the proper calls
         if self.trace:
             print("--FormFunc: " + str(p[3]))
-        element = Element(str(p[3]))
-        p[0] = 27
+        # ASK : Why is there a need to use checkIdIsInteger ... shouldn't this be easy to check type(p[2])
+        if len(p) == 6 and p[3] is True:
+            p[0] = Element(p[3])
+        elif len(p) == 5 and type(p[3]) is int:
+            p[0] = Element(p[3])
 
     def p_unit(self, p):
         '''Unit : UnitTok

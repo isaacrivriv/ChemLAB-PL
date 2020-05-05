@@ -1,6 +1,6 @@
-from src.ChemicalEquation import Reactant, Product, ChemicalEquation
-from src.Compound import Compound
-from src.element import Element
+from ChemicalEquation import Reactant, Product, ChemicalEquation
+from Compound import Compound
+from element import Element
 
 
 def main():

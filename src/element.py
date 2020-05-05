@@ -1,4 +1,4 @@
-from src.periodic_table import PERIODIC_TABLE
+from periodic_table import PERIODIC_TABLE
 
 
 class Element:
@@ -8,7 +8,8 @@ class Element:
         self.element_data = PERIODIC_TABLE[a_num]
 
     def __str__(self):
-        return self.element_data['symbol']
+        # return self.element_data['symbol']
+        return self.full_detail_str()
 
     def full_detail_str(self):
         return self.element_data.__str__()

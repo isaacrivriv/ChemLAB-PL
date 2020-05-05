@@ -1,7 +1,8 @@
 ^^ Should ignore this cause this is just a comment
 [test=36;][detail(test)]
 ^^ Not Full working just placeholder code
-[elemBond=form(23);]
+[elem1=form(23);]
+[elemBond=elem1&form(2);]
 [balanced?(elemBond)]
 [HNO3=form(14);]
 [detail (HNO3)]

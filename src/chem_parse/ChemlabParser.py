@@ -1,7 +1,9 @@
 import ply.yacc as yacc
-import src.chem_lex.ChemlabTokens as toks
-import src.chem_parse.ParsingUtils as utils
-from src.element import Element
+import chem_lex.ChemlabTokens as toks
+import chem_parse.ParsingUtils as utils
+from element import Element
+from Compound import Compound
+import ChemicalEquation
 import re
 
 
@@ -130,7 +132,8 @@ class ChemlabParser:
         '''Builtin : convert Lparen Id checkIdIsElem Comma Number Comma Unit Comma Unit Rparen
                         | convert Lparen FormFunc Comma Number Comma Unit Comma Unit Rparen
                         | FormFunc
-                        | isBalanced Lparen ElemList Rparen'''
+                        | isBalanced Lparen CompList Separator CompList Rparen
+                        | balance Lparen CompList Separator CompList Rparen'''
         if self.trace:
             print("--Builtin: " + str(p[1]))
         # TODO: Probably do a lookup of a util function that matches what was passed and pass the result along the tree
@@ -145,21 +148,55 @@ class ChemlabParser:
                     print("----convert: " + str(p[3]) + " ; value: " + str(p[6]) + " from: " + str(
                         p[8]) + " ; to: " + str(p[10]))
             p[0]["value"] = 24.6
+        elif p[1] == 'balance':
+            reac = ChemicalEquation.Reactant(tuple(p[3]))
+            prod = ChemicalEquation.Product(tuple(p[5]))
+            p[0]["value"] = ChemicalEquation(reac, prod).balance()
         elif p[1] == "balanced?":
-            if self.trace:
-                print("----balanced?: " + str(p[3]))
-            p[0]["value"] = True
+            reac = ChemicalEquation.Reactant(tuple(p[3]))
+            prod = ChemicalEquation.Product(tuple(p[5]))
+            p[0]["value"] = ChemicalEquation(reac, prod).isBalanced()
         else:
             if self.trace:
                 print("----form: " + str(p[1]))
             p[0]["value"] = p[1]
 
     def p_compound(self, p):
-        '''Compound : Compound
-                    | FormFunc Bond FormFunc
-                    | FormFunc'''
+        '''Compound : Id checkIdIsCompound
+                        | FormFunc Bond FormFunc
+                        | Id checkIdIsElem Bond FormFunc
+                        | FormFunc Bond Id checkIdIsElem
+                        | Id checkIdIsElem Bond Id checkIdIsElem
+                        | FormFunc'''
         # print(p[2])
-        print("OK")
+        if self.trace:
+            print("--Compound: ")
+        if len(p) > 5:
+            if p[2] and p[5]:
+                p[0] = ParsingUtils.manageTermOperation(self.variables.get(p[1]), p[3],self.variables.get(p[4]))
+            else:
+                raise TypeError("Invalid Ids passed as compound")
+        elif len(p) > 4:
+            if p[2] == '&':
+                if p[4]:
+                    p[0] = ParsingUtils.manageTermOperation(p[1], p[2],self.variables.get(p[3]))
+                else:
+                    raise TypeError("Invalid Id passed as Element")
+            else:
+                if p[4]:
+                    p[0] = ParsingUtils.manageTermOperation(self.variables.get(p[1]), p[3],p[4])
+                else:
+                    raise TypeError("Invalid Id passed as Element")
+        elif len(p) > 3:
+            p[0] = ParsingUtils.manageTermOperation(p[1], p[2], p[3])
+        elif len(p) > 2:
+            if p[2]:
+                p[0] = p[1]
+            else:
+                raise TypeError("Invalid Id passed as compound")
+        else:
+            p[0] = Compound({p[1]['element_data']['symbol']:1})
+
 
     def p_form_manage(self, p):
         '''FormFunc : form Lparen Id checkIdIsInteger Rparen
@@ -169,10 +206,13 @@ class ChemlabParser:
         if self.trace:
             print("--FormFunc: " + str(p[3]))
         # ASK : Why is there a need to use checkIdIsInteger ... shouldn't this be easy to check type(p[2])
-        if len(p) == 6 and p[3] is True:
+        if len(p) == 6 and p[4]:
+            p[0] = Element(self.variables.get(p[3]))
+        elif len(p) == 5:
             p[0] = Element(p[3])
-        elif len(p) == 5 and type(p[3]) is int:
-            p[0] = Element(p[3])
+        else:
+            raise TypeError("Could not create element with arguments passed")
+        print(p[0])
 
     def p_unit(self, p):
         '''Unit : UnitTok
@@ -197,7 +237,23 @@ class ChemlabParser:
         # TODO: Placeholder code. Need to fill this with the proper code
         if self.trace:
             print("--checkIdIsElem")
-        p[0] = True
+        var = self.variables.get(p[-1])
+        if var is None:
+            raise TypeError("Uninitialized Id passed for " + str(p[-1]))
+        else:
+            return isinstance(var, Element)
+
+    def p_is_compound(self, p):
+        '''checkIdIsCompound :'''
+        # TODO: Verify if id passed is an element or compound (p[-1] to get the id)
+        # TODO: Placeholder code. Need to fill this with the proper code
+        if self.trace:
+            print("--checkIdIsCompound")
+        var = self.variables.get(p[-1])
+        if var is None:
+            raise TypeError("Uninitialized Id passed for " + str(p[-1]))
+        else:
+            return isinstance(var, Compound)
 
     def p_is_integer(self, p):
         '''checkIdIsInteger :'''
@@ -210,20 +266,30 @@ class ChemlabParser:
         else:
             return type(var) is int
 
-    def p_elem_list(self, p):  # TODO: For now this is just an id list but need to check if we need to add more
-        '''ElemList : Id checkIdIsElem
-                        | Id checkIdIsElem Comma ElemList'''
+    # def p_elem_list(self, p):  # TODO: For now this is just an id list but need to check if we need to add more
+    #     '''ElemList : Id checkIdIsElem
+    #                     | Id checkIdIsElem Comma ElemList'''
+    #     if self.trace:
+    #         print("--ElemList")
+    #     if p[2]:
+    #         p[0] = self.variables.get(p[1])
+    #         if p[0] is None:
+    #             raise TypeError("Uninitialized Id passed for " + str(p[1]))
+    #         p[0] = [p[0]]
+    #         if len(p) > 3:
+    #             p[0] = p[0] + p[4]
+    #     else:
+    #         raise TypeError("Invalid argument passed: " + str(p[1]))
+
+    def p_comp_list(self, p):  # TODO: For now this is just an id list but need to check if we need to add more
+        '''CompList : Compound
+                        | Compound Comma CompList'''
         if self.trace:
-            print("--ElemList")
-        if p[2]:
-            p[0] = self.variables.get(p[1])
-            if p[0] is None:
-                raise TypeError("Uninitialized Id passed for " + str(p[1]))
-            p[0] = [p[0]]
-            if len(p) > 3:
-                p[0] = p[0] + p[4]
+            print("--CompList")
+        if len(p) > 2:
+            p[0] = [p[1]] + p[3]
         else:
-            raise TypeError("Invalid argument passed: " + str(p[1]))
+            p[0] = [p[1]]
 
     def p_exp_list(self, p):
         '''ExpList : Empty

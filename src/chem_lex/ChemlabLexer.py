@@ -1,5 +1,5 @@
 import ply.lex as lex
-import src.chem_lex.ChemlabTokens as toks
+import chem_lex.ChemlabTokens as toks
 
 
 class ChemLABLexer:
@@ -19,6 +19,7 @@ class ChemLABLexer:
     t_Division = r'\/'
     t_Bond = r'&'
     t_Balance = r'\|'
+    t_Separator = r'\->'
 
     def t_Float(self, t):
         r'\d+\.\d+'

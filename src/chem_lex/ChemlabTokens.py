@@ -8,6 +8,7 @@ reserved = {
     'convert': 'convert',
     'form': 'form',
     'balanced?': 'isBalanced',
+    'balance': 'balance',
 }
 
 unit_prefix = {
@@ -68,6 +69,7 @@ tokens = [
              'Comment',
              'UnitTok',
              'PrefixTok',
+             'Separator'
          ] + list(reserved.values())
 
 precedence = (

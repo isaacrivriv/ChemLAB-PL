@@ -4,16 +4,16 @@ sys.path.insert(1, '/Users/valericita/Documents/GitHub/ChemLAB-PL/src/chem_lex')
 
 import ChemlabTokens
 from element import Element
-def convertTo(num, Unit, newUnit):
+def convertTo(el, num, Unit, newUnit):
     ### need to redo with the parser
     if(Unit in ChemlabTokens.unit_prefix and newUnit in ChemlabTokens.unit_prefix):
         result = convertPrefix(num,Unit,newUnit)
     if(Unit in ChemlabTokens.supported_units and newUnit in ChemlabTokens.supported_units):
-        result = convertUnit(num,Unit,newUnit)
+        result = convertUnit(el, num,Unit,newUnit)
 
     return result
 
-def convertTo(el ,num, Unit, newUnit):
+def convertWeight(el ,num, Unit, newUnit):
     ### Converts weight related to an element
     if not isinstance(el, Element):
         raise TypeError("Not an element. Cannot perform operation")
@@ -80,11 +80,11 @@ Longitud = {'ft','me','mi'}
 Weight = {'g','mol','atoms'}
 Temp = {'K','C','F'}
 
-def convertUnit(num,Unit,newUnit):
+def convertUnit(el, num , Unit,newUnit):
     if (Unit in Longitud):
         result = convertLong(num, Unit,newUnit)
     elif (Unit in Weight):
-        result = convertWeight(num, Unit,newUnit)
+        result = convertWeight(el,num, Unit,newUnit)
     elif (Unit in Temp):
         result = convertTemp(num, Unit,newUnit)
 
@@ -132,3 +132,6 @@ def convertTemp(num, Unit, newUnit):
     else:
         raise TypeError("It's not possible to make that conversion")
     return result
+
+el = Element('4')
+print("result =   " + str(convertTo(el,100,'ft','me')))

@@ -79,7 +79,6 @@ class ChemlabParser:
                         | Term Multiplication Term
                         | Term Division Term
                         | Term Bond Term
-                        | Term Balance Term
                         | Term Binoper Term
                         | Factor Lparen ExpList Rparen
                         | Factor
@@ -151,18 +150,26 @@ class ChemlabParser:
         elif p[1] == 'balance':
             reac = ChemicalEquation.Reactant(tuple(p[3]))
             prod = ChemicalEquation.Product(tuple(p[5]))
-            p[0]["value"] = ChemicalEquation(reac, prod).balance()
+            try:
+                equation = ChemicalEquation.ChemicalEquation(reac, prod)
+                equation.balance()
+                print(equation)
+                p[0]["value"] = True
+            except Exception:
+                print("WARNING: Could not balance equation: {"+str(reac) +" -> "+str(prod))+"}"
+                p[0]["value"] = False
         elif p[1] == "balanced?":
             reac = ChemicalEquation.Reactant(tuple(p[3]))
             prod = ChemicalEquation.Product(tuple(p[5]))
-            p[0]["value"] = ChemicalEquation(reac, prod).isBalanced()
+            p[0]["value"] = ChemicalEquation.ChemicalEquation(reac, prod).isBalanced()
         else:
             if self.trace:
                 print("----form: " + str(p[1]))
             p[0]["value"] = p[1]
 
     def p_compound(self, p):
-        '''Compound : Id checkIdIsCompound
+        '''Compound : Id checkIdIsCompoundOrElem
+                        | Id checkIdIsElem Integer
                         | FormFunc Bond FormFunc
                         | Id checkIdIsElem Bond FormFunc
                         | FormFunc Bond Id checkIdIsElem
@@ -173,29 +180,35 @@ class ChemlabParser:
             print("--Compound: ")
         if len(p) > 5:
             if p[2] and p[5]:
-                p[0] = ParsingUtils.manageTermOperation(self.variables.get(p[1]), p[3],self.variables.get(p[4]))
+                p[0] = utils.manageTermOperation(self.variables.get(p[1]), p[3],self.variables.get(p[4]))
             else:
                 raise TypeError("Invalid Ids passed as compound")
         elif len(p) > 4:
             if p[2] == '&':
                 if p[4]:
-                    p[0] = ParsingUtils.manageTermOperation(p[1], p[2],self.variables.get(p[3]))
+                    p[0] = utils.manageTermOperation(p[1], p[2],self.variables.get(p[3]))
                 else:
                     raise TypeError("Invalid Id passed as Element")
             else:
                 if p[4]:
-                    p[0] = ParsingUtils.manageTermOperation(self.variables.get(p[1]), p[3],p[4])
+                    p[0] = utils.manageTermOperation(self.variables.get(p[1]), p[3],p[4])
                 else:
                     raise TypeError("Invalid Id passed as Element")
         elif len(p) > 3:
-            p[0] = ParsingUtils.manageTermOperation(p[1], p[2], p[3])
+            if p[2] == '&':
+                p[0] = utils.manageTermOperation(p[1], p[2], p[3])
+            else:
+                p[0] = Compound({self.variables.get(p[1]):p[3]}, "covalent")
         elif len(p) > 2:
             if p[2]:
-                p[0] = p[1]
+                if isinstance(self.variables.get(p[1]), Element):
+                    p[0] = Compound({self.variables.get(p[1]):1}, "covalent")
+                else:
+                    p[0] = self.variables.get(p[1])
             else:
                 raise TypeError("Invalid Id passed as compound")
         else:
-            p[0] = Compound({p[1]['element_data']['symbol']:1})
+            p[0] = Compound({p[1]:1}, "covalent")
 
 
     def p_form_manage(self, p):
@@ -212,7 +225,7 @@ class ChemlabParser:
             p[0] = Element(p[3])
         else:
             raise TypeError("Could not create element with arguments passed")
-        print(p[0])
+
 
     def p_unit(self, p):
         '''Unit : UnitTok
@@ -241,19 +254,19 @@ class ChemlabParser:
         if var is None:
             raise TypeError("Uninitialized Id passed for " + str(p[-1]))
         else:
-            return isinstance(var, Element)
+            p[0] = isinstance(var, Element)
 
     def p_is_compound(self, p):
-        '''checkIdIsCompound :'''
+        '''checkIdIsCompoundOrElem :'''
         # TODO: Verify if id passed is an element or compound (p[-1] to get the id)
         # TODO: Placeholder code. Need to fill this with the proper code
         if self.trace:
-            print("--checkIdIsCompound")
+            print("--checkIdIsCompoundOrElem")
         var = self.variables.get(p[-1])
         if var is None:
             raise TypeError("Uninitialized Id passed for " + str(p[-1]))
         else:
-            return isinstance(var, Compound)
+            p[0] = isinstance(var, Compound) or isinstance(var, Element)
 
     def p_is_integer(self, p):
         '''checkIdIsInteger :'''
@@ -264,7 +277,7 @@ class ChemlabParser:
         if var is None:
             raise TypeError("Uninitialized Id passed for " + str(p[-1]))
         else:
-            return type(var) is int
+            p[0] = isinstance(var, int)
 
     # def p_elem_list(self, p):  # TODO: For now this is just an id list but need to check if we need to add more
     #     '''ElemList : Id checkIdIsElem
@@ -287,9 +300,9 @@ class ChemlabParser:
         if self.trace:
             print("--CompList")
         if len(p) > 2:
-            p[0] = [p[1]] + p[3]
+            p[0] = [p[1].convertToBalanceFormat()] + p[3]
         else:
-            p[0] = [p[1]]
+            p[0] = [p[1].convertToBalanceFormat()]
 
     def p_exp_list(self, p):
         '''ExpList : Empty

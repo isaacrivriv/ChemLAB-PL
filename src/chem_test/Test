@@ -3,11 +3,11 @@
 ^^ Not Full working just placeholder code
 [elem1=form(23);]
 [elemBond=elem1&form(2);]
-[balanced?(elemBond)]
+[balanced?(elemBond -> elemBond)]
 [HNO3=form(14);]
 [detail (HNO3)]
 [ 
-if balanced?(elemBond) then 
+if balanced?(elemBond  -> elemBond) then 
     detail(TRUE) 
 else 
     detail(FALSE)
@@ -15,11 +15,26 @@ else
 [detail (32,31.4)]
 [detail (32,31.4,TRUE)]
 [ 
-if if balanced?(elemBond) 
+if if balanced?(elemBond -> elemBond) 
     then TRUE 
     else FALSE ^^ We could say this is similar to the ternary operator in python. Obviously this is very unnecesary code just for a demonstration
 then detail(TRUE) 
 else detail(FALSE)
+]
+[phosChl=form(17)&form(15);]
+[H2O=form(1)&form(8);]
+[HP=form(1)&form(15);]
+[O=form(8);]
+[HCL=form(1)&form(17);]
+[
+    tsf = balance(phosChl, H2O -> HP, O, HCL );
+]
+[feO=form(26)&form(8);]
+[Car=form(6);]
+[fe=form(26);]
+[CO=form(6)&form(8);]
+[
+    test = balance(feO, Car 1 -> form(8)&form(6), fe );
 ]
 [
     detail(convert(HNO3, 34, ft, cme))

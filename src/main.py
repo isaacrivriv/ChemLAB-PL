@@ -7,7 +7,7 @@ def main():
     # If no file name passed when running we open the ChemLAB command line, if not we try to parse the file passed
     try:
         # Check if something was passed. If not, we open command line theme
-        trace = True
+        trace = False
         lexer = Lexer.ChemLABLexer()
         lexer.build()
         parser = Parser.ChemlabParser()

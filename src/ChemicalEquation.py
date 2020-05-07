@@ -107,13 +107,11 @@ class ChemicalEquation:
 
     def balance(self):
         ### check if they have the same elements in both side... otherwise throw an error
-
         elements_involve = self.get_list_of_elements()
         sysEqu = [[1] + [0] * (self.number_terms - 1)] + [[0] * self.number_terms] * len(elements_involve)
         b = [1] + [0] * len(elements_involve)
         baseEqu = []
         # TODO: Considere coeff
-
         for element in elements_involve:
             curr_equ = []
             for compound in self.reactants.compounds:
@@ -127,11 +125,14 @@ class ChemicalEquation:
                 else:
                     curr_equ.append(0)
             baseEqu.append(curr_equ)
-
         sysEqu[1:] = baseEqu
         A = Matrix(sysEqu)
         b = Matrix(b)
-        solutions = list(linsolve((A, b)).args[0])
+        # solutions = list(linsolve((A, b)).args[0])
+        s=linsolve((A, b))
+        if len(s.args) == 0:
+            raise Warning("Unsolvable equation passed")
+        solutions = list(s.args[0])
         # TODO: Raise an error if args is empty
         for i in range(self.number_terms):
             if solutions[i].q != 1:

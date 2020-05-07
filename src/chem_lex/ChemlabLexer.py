@@ -18,7 +18,6 @@ class ChemLABLexer:
     t_Multiplication = r'\*'
     t_Division = r'\/'
     t_Bond = r'&'
-    t_Balance = r'\|'
     t_Separator = r'\->'
 
     def t_Float(self, t):

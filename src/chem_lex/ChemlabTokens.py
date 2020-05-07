@@ -65,7 +65,6 @@ tokens = [
              'Multiplication',
              'Division',
              'Bond',
-             'Balance',
              'Comment',
              'UnitTok',
              'PrefixTok',
@@ -76,5 +75,5 @@ precedence = (
     ('nonassoc', 'Binoper'),  # Nonassociative operators
     ('left', 'Plus', 'Minus'),
     ('left', 'Multiplication', 'Division'),
-    ('left', 'Bond', 'Balance'),
+    ('left', 'Bond'),
 )

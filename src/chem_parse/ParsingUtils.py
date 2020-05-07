@@ -1,4 +1,4 @@
-
+import operations
 
 def printDetail(detailsDict):
     if isinstance(detailsDict, dict) and detailsDict.get("toDetail"):
@@ -47,8 +47,7 @@ def manageTermOperation(firstTerm, operator, secondTerm):
     elif operator == ":=":
         return firstTerm == secondTerm
     elif operator == "&":
-        # TODO: Need to fill this in with bond
-        raise NotImplementedError("The & operator has not been implemented yet")
+        return operations.bond(firstTerm, secondTerm)
     elif operator == "|":
         # TODO: Need to fill this in with balance
         raise NotImplementedError("The | operator has not been implemented yet")

@@ -1,7 +1,6 @@
 import ply.lex as lex
 import chem_lex.ChemlabTokens as toks
 
-
 class ChemLABLexer:
     tokens = toks.tokens
 

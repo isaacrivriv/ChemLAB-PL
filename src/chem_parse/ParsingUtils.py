@@ -17,7 +17,7 @@ def buildDetailsDict(term, variables):
     elif type(term) is int or type(term) is float:
         varType = "Number"
     else:
-        varType = str(type(term))
+        varType = str(type(term).__name__)
     details['details'].append(varType + " ::= " + str(term))
     return details
 

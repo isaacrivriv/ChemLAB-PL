@@ -22,6 +22,7 @@ class Compound:
                 s += f'{x}{y}'
             else:
                 s += f'{x}'
+            s += f' , '
         return s.rstrip().translate(substring) + f'] \ttype: {self.type}'
 
     def calculate_mass(self):

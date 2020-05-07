@@ -21,18 +21,11 @@ if if balanced?(elemBond -> elemBond)
 then detail(TRUE) 
 else detail(FALSE)
 ]
-[phosChl=form(17)&form(15);]
-[H2O=form(1)&form(8);]
-[HP=form(1)&form(15);]
-[O=form(8);]
-[HCL=form(1)&form(17);]
-[
-    tsf = balance(phosChl, H2O -> HP, O, HCL );
-]
 [feO=form(26)&form(8);]
 [Car=form(6);]
 [fe=form(26);]
 [CO=form(6)&form(8);]
+[detail(CO)]
 [
     test = balance(feO, Car 1 -> form(8)&form(6), fe );
 ]

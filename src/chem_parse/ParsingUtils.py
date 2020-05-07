@@ -8,15 +8,16 @@ def printDetail(detailsDict):
     else:
         return False
 
+
 def buildDetailsDict(term, variables):
-    details = {"toDetail":True, "details":[]}
-    varType = "" 
-    if type(term) is bool: 
+    details = {"toDetail": True, "details": []}
+    varType = ""
+    if type(term) is bool:
         varType = "Boolean"
     elif type(term) is int or type(term) is float:
         varType = "Number"
     else:
-        varType = str(type(term))
+        varType = str(type(term).__name__)
     details['details'].append(varType + " ::= " + str(term))
     return details
 
@@ -48,9 +49,5 @@ def manageTermOperation(firstTerm, operator, secondTerm):
         return firstTerm == secondTerm
     elif operator == "&":
         return operations.bond(firstTerm, secondTerm)
-    elif operator == "|":
-        # TODO: Need to fill this in with balance
-        raise NotImplementedError("The | operator has not been implemented yet")
     else:
-        # TODO: Need to fill this in with an appropriate error.
-        raise NotImplementedError("The token was recognized as binoper but no oper implemented yet for "+str(p[2]))
+        raise NotImplementedError("The token was recognized as binoper but no oper implemented yet for " + operator)

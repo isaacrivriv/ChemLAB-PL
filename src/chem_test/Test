@@ -1,12 +1,13 @@
 ^^ Should ignore this cause this is just a comment
 [test=36;][detail(test)]
 ^^ Not Full working just placeholder code
-[elemBond=form(23);]
-[balanced?(elemBond)]
+[elem1=form(23);]
+[elemBond=elem1&form(2);]
+[balanced?(elemBond -> elemBond)]
 [HNO3=form(14);]
 [detail (HNO3)]
 [ 
-if balanced?(elemBond) then 
+if balanced?(elemBond  -> elemBond) then 
     detail(TRUE) 
 else 
     detail(FALSE)
@@ -14,11 +15,19 @@ else
 [detail (32,31.4)]
 [detail (32,31.4,TRUE)]
 [ 
-if if balanced?(elemBond) 
+if if balanced?(elemBond -> elemBond) 
     then TRUE 
     else FALSE ^^ We could say this is similar to the ternary operator in python. Obviously this is very unnecesary code just for a demonstration
 then detail(TRUE) 
 else detail(FALSE)
+]
+[feO=form(26)&form(8);]
+[Car=form(6);]
+[fe=form(26);]
+[CO=form(6)&form(8);]
+[detail(CO)]
+[
+    test = balance(feO, Car 1 -> form(8)&form(6), fe );
 ]
 [
     detail(convert(HNO3, 34, ft, cme))

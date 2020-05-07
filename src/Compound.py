@@ -22,6 +22,7 @@ class Compound:
                 s += f'{x}{y}'
             else:
                 s += f'{x}'
+            s += f' , '
         return s.rstrip().translate(substring) + f'] \ttype: {self.type}'
 
     def calculate_mass(self):
@@ -35,3 +36,9 @@ class Compound:
             raise ValueError(str(e) + " is not part of this compound.")
 
         return e.dictionary['atomic_weight'] / self.mass[0] * 100, '%'
+
+    def convertToBalanceFormat(self):
+        copy = {}
+        for key in self.elements:
+            copy[key.dictionary['symbol']]=self.elements[key]
+        return copy

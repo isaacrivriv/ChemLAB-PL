@@ -7,9 +7,12 @@ class Element:
     def __init__(self,a_num):
         # Stores the dictionary with the info for the specific element
         self.dictionary = PERIODIC_TABLE[a_num]
-
+        
     def __str__(self):
-        concat = ''
-        for key, value in self.dictionary.items():
-            concat = concat + key + "=" + str(value) + ", "
-        return concat
+        # return self.element_data['symbol']
+        return self.full_detail_str()
+
+    def full_detail_str(self):
+        return self.dictionary.__str__()
+
+

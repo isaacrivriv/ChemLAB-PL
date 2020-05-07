@@ -1,14 +1,11 @@
-import sys
-# insert at 1, 0 is the script path (or '' in REPL)
-sys.path.insert(1, '/Users/valericita/Documents/GitHub/ChemLAB-PL/src/chem_lex')
-
-import ChemlabTokens
+from chem_lex.ChemlabTokens import unit_prefix, supported_units
+#import
 from element import Element
 def convertTo(el, num, Unit, newUnit):
     ### need to redo with the parser
-    if(Unit in ChemlabTokens.unit_prefix and newUnit in ChemlabTokens.unit_prefix):
+    if(Unit in unit_prefix and newUnit in unit_prefix):
         result = convertPrefix(num,Unit,newUnit)
-    if(Unit in ChemlabTokens.supported_units and newUnit in ChemlabTokens.supported_units):
+    if(Unit in supported_units and newUnit in supported_units):
         result = convertUnit(el, num,Unit,newUnit)
 
     return result

@@ -1,6 +1,3 @@
-from element import Element
-
-
 class Compound:
 
     def __init__(self, elements, bond_type):
@@ -14,22 +11,34 @@ class Compound:
             self.type = 'ionic'
         elif bond_type == 'metallic':
             self.type = 'intermetallic'
-        elif bond_type == 'coordinate covalent':
-            self.type = 'complex'
         else:
             self.type = None
 
     def __str__(self):
+        substring = str.maketrans("0123456789", "₀₁₂₃₄₅₆₇₈₉")
         s = '['
         for x, y in self.elements.items():
             if y != 1:
-                s += f'{x}_{y} '
+                s += f'{x}{y}'
             else:
                 s += f'{x}'
-        return s.rstrip() + f'] \ttype: {self.type} \tmass: {self.mass[0]}'
+            s += f' , '
+        return s.rstrip().translate(substring) + f'] \ttype: {self.type}'
 
     def calculate_mass(self):
         mass = 0
         for e in self.elements:
-            mass += Element(e).info['atomic_weight'] * self.elements[e]
+            mass += e.dictionary['atomic_weight'] * self.elements[e]  # e is wrong, must be a number
         return mass, 'g/mol'
+
+    def percent_composition(self, e):
+        if e not in self.elements:
+            raise ValueError(str(e) + " is not part of this compound.")
+
+        return e.dictionary['atomic_weight'] / self.mass[0] * 100, '%'
+
+    def convertToBalanceFormat(self):
+        copy = {}
+        for key in self.elements:
+            copy[key.dictionary['symbol']]=self.elements[key]
+        return copy

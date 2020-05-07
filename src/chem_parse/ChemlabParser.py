@@ -215,7 +215,6 @@ class ChemlabParser:
         '''FormFunc : form Lparen Id checkIdIsInteger Rparen
                         | form Lparen Integer Rparen'''
         # TODO: Probably do a lookup of a util function that matches what was passed and pass the result along the tree
-        # TODO: Placeholder code. Need to fill this with the proper calls
         if self.trace:
             print("--FormFunc: " + str(p[3]))
         # ASK : Why is there a need to use checkIdIsInteger ... shouldn't this be easy to check type(p[2])
@@ -225,6 +224,7 @@ class ChemlabParser:
             p[0] = Element(p[3])
         else:
             raise TypeError("Could not create element with arguments passed")
+
 
 
     def p_unit(self, p):

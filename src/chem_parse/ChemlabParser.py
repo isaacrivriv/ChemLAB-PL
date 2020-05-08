@@ -148,7 +148,7 @@ class ChemlabParser:
                     print("----convert: " + str(p[3]) + " ; value: " + str(p[6]) + " from: " + str(
                         p[8]) + " ; to: " + str(p[10]))
 
-            p[0]["value"] = feature.convertTo(p[3],p[5],p[7],p[9])
+            p[0]["value"] = feature.convertTo(p[3],p[6],(p[8])[0],(p[10])[0])
         elif p[1] == 'balance':
             reac = ChemicalEquation.Reactant(tuple(p[3]))
             prod = ChemicalEquation.Product(tuple(p[5]))
@@ -231,7 +231,8 @@ class ChemlabParser:
 
     def p_unit(self, p):
         '''Unit : UnitTok
-                        | PrefixTok Unit'''
+                        | PrefixTok
+                            | PrefixTok Unit'''
         # TODO: Maybe a lookup is necessary here? Need to check whats the best way to implement this.
         # Language allows for this to have prefixes and prefixes and so on so on so we need to think on how to implement
         # this

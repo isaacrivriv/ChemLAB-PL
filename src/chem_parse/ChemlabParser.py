@@ -4,6 +4,7 @@ import chem_parse.ParsingUtils as utils
 from element import Element
 from Compound import Compound
 import ChemicalEquation
+import feature
 import re
 
 
@@ -12,7 +13,7 @@ class ChemlabParser:
     precedence = toks.precedence
 
     def p_exp_plus(self, p):
-        '''ExpPlus :  Lbrack Exp Rbrack 
+        '''ExpPlus :  Lbrack Exp Rbrack
                         | Lbrack Exp Rbrack ExpPlus
         '''
         if self.trace:
@@ -146,7 +147,8 @@ class ChemlabParser:
                 else:
                     print("----convert: " + str(p[3]) + " ; value: " + str(p[6]) + " from: " + str(
                         p[8]) + " ; to: " + str(p[10]))
-            p[0]["value"] = 24.6
+
+            p[0]["value"] = feature.convertTo(p[3],p[5],p[7],p[9])
         elif p[1] == 'balance':
             reac = ChemicalEquation.Reactant(tuple(p[3]))
             prod = ChemicalEquation.Product(tuple(p[5]))

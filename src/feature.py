@@ -7,7 +7,8 @@ def convertTo(el, num, Unit, newUnit):
         result = convertPrefix(num,Unit,newUnit)
     if(Unit in supported_units and newUnit in supported_units):
         result = convertUnit(el, num,Unit,newUnit)
-
+    else:
+        raise TypeError("Invalid Units")
     return result
 
 def convertWeight(el ,num, Unit, newUnit):
@@ -129,6 +130,3 @@ def convertTemp(num, Unit, newUnit):
     else:
         raise TypeError("It's not possible to make that conversion")
     return result
-
-el = Element('4')
-print("result =   " + str(convertTo(el,100,'ft','me')))

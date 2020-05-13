@@ -231,8 +231,7 @@ class ChemlabParser:
 
     def p_unit(self, p):
         '''Unit : UnitTok
-                        | PrefixTok
-                            | PrefixTok Unit'''
+                        | PrefixTok UnitTok'''
         # TODO: Maybe a lookup is necessary here? Need to check whats the best way to implement this.
         # Language allows for this to have prefixes and prefixes and so on so on so we need to think on how to implement
         # this

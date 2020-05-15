@@ -4,6 +4,7 @@ import chem_parse.ParsingUtils as utils
 from element import Element
 from Compound import Compound
 import ChemicalEquation
+import feature
 import re
 
 
@@ -12,7 +13,7 @@ class ChemlabParser:
     precedence = toks.precedence
 
     def p_exp_plus(self, p):
-        '''ExpPlus :  Lbrack Exp Rbrack 
+        '''ExpPlus :  Lbrack Exp Rbrack
                         | Lbrack Exp Rbrack ExpPlus
         '''
         if self.trace:
@@ -146,7 +147,27 @@ class ChemlabParser:
                 else:
                     print("----convert: " + str(p[3]) + " ; value: " + str(p[6]) + " from: " + str(
                         p[8]) + " ; to: " + str(p[10]))
-            p[0]["value"] = 24.6
+            if p[4] != ',' and not p[4]:
+                raise TypeError("Invalid Id passed for conversion")
+            #case where theres no prefix
+            if p[4] != ',':
+                pre1 = (p[8])[0]
+                pre2 = (p[10])[0]
+            else:
+                pre1 = (p[7])[0]
+                pre2 = (p[9])[0]
+            if(pre1 =='None' and pre2 == 'None'):
+                if p[4] != ',':
+                    p[0]["value"] = feature.convertTo(self.variables.get(p[3]),p[6],(p[8])[1],(p[10])[1])
+                else:
+                    p[0]["value"] = feature.convertTo(p[3],p[5],(p[7])[1],(p[9])[1])
+            else:
+                if p[4] != ',':
+                    ConvertPrefix = feature.convertTo(self.variables.get(p[3]),p[6],(p[8])[0],(p[10])[0])
+                    p[0]["value"]  = feature.convertTo(self.variables.get(p[3]),ConvertPrefix,(p[8])[1],(p[10])[1])
+                else:
+                    ConvertPrefix = feature.convertTo(p[3],p[5],(p[7])[0],(p[9])[0])
+                    p[0]["value"]  = feature.convertTo(p[3],ConvertPrefix,(p[7])[1],(p[9])[1])
         elif p[1] == 'balance':
             reac = ChemicalEquation.Reactant(tuple(p[3]))
             prod = ChemicalEquation.Product(tuple(p[5]))
@@ -229,18 +250,16 @@ class ChemlabParser:
 
     def p_unit(self, p):
         '''Unit : UnitTok
-                        | PrefixTok Unit'''
+                        | PrefixTok UnitTok'''
         # TODO: Maybe a lookup is necessary here? Need to check whats the best way to implement this.
         # Language allows for this to have prefixes and prefixes and so on so on so we need to think on how to implement
         # this
         if self.trace:
             print("--Unit")
-        if type(p[1]) is not tuple:
-            p[1] = tuple([p[1]])
         if len(p) > 2:
-            p[0] = p[1] + p[2]
+            p[0]= (p[1],p[2])
         else:
-            p[0] = p[1]
+            p[0]= ("None",p[1])
         if self.trace:
             print("----Val: " + str(p[0]))
 

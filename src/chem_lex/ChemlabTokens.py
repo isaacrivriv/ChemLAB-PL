@@ -43,10 +43,6 @@ supported_units = {
     'cd': 'UnitTok',  # CANDELA
 }
 
-combination_unit_prefix = {}
-for prefix in unit_prefix:
-    for unit in supported_units:
-        combination_unit_prefix[prefix + unit] = (prefix, unit)
 
 tokens = [
              'Integer',

@@ -19,7 +19,6 @@ Using ChemLAB we can easily bond elements, balance the result and get the result
   [elem1=elem1|elem1]
   [detail(elem1)]
 ```
-**More examples will be added as we work through our implementation**
 
 Try it out! Just clone our repo and start programming yourself!
 

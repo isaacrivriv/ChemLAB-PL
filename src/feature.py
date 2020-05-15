@@ -3,13 +3,10 @@ from chem_lex.ChemlabTokens import unit_prefix, supported_units
 from element import Element
 def convertTo(el, num, Unit, newUnit):
     ### need to redo with the parser
-
     if(Unit in unit_prefix and newUnit in unit_prefix):
         result = convertPrefix(num,Unit,newUnit)
-        print("Result is: " + str(result))
     elif (Unit in supported_units and newUnit in supported_units):
         result = convertUnit(el, num,Unit,newUnit)
-        print("Result is: "+ str(result))
     elif(Unit == 'None'):
         Unit='base'
         result = convertPrefix(num,Unit,newUnit)

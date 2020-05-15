@@ -147,17 +147,27 @@ class ChemlabParser:
                 else:
                     print("----convert: " + str(p[3]) + " ; value: " + str(p[6]) + " from: " + str(
                         p[8]) + " ; to: " + str(p[10]))
-
+            if p[4] != ',' and not p[4]:
+                raise TypeError("Invalid Id passed for conversion")
             #case where theres no prefix
-            elemVar = self.variables.get(p[3])
-            if((p[8])[0]=='None' and ((p[10])[0])=='None'):
-                p[0]["value"] = feature.convertTo(elemVar,p[6],(p[8])[1],(p[10])[1])
-
+            if p[4] != ',':
+                pre1 = (p[8])[0]
+                pre2 = (p[10])[0]
             else:
-                    ConvertPrefix = feature.convertTo(elemVar,p[6],(p[8])[0],(p[10])[0])
-                    p[0]["value"]  = feature.convertTo(elemVar,ConvertPrefix,(p[8])[1],(p[10])[1])
-
-
+                pre1 = (p[7])[0]
+                pre2 = (p[9])[0]
+            if(pre1 =='None' and pre2 == 'None'):
+                if p[4] != ',':
+                    p[0]["value"] = feature.convertTo(self.variables.get(p[3]),p[6],(p[8])[1],(p[10])[1])
+                else:
+                    p[0]["value"] = feature.convertTo(p[3],p[5],(p[7])[1],(p[9])[1])
+            else:
+                if p[4] != ',':
+                    ConvertPrefix = feature.convertTo(self.variables.get(p[3]),p[6],(p[8])[0],(p[10])[0])
+                    p[0]["value"]  = feature.convertTo(self.variables.get(p[3]),ConvertPrefix,(p[8])[1],(p[10])[1])
+                else:
+                    ConvertPrefix = feature.convertTo(p[3],p[5],(p[7])[0],(p[9])[0])
+                    p[0]["value"]  = feature.convertTo(p[3],ConvertPrefix,(p[7])[1],(p[9])[1])
         elif p[1] == 'balance':
             reac = ChemicalEquation.Reactant(tuple(p[3]))
             prod = ChemicalEquation.Product(tuple(p[5]))

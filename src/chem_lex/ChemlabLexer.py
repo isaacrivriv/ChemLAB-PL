@@ -33,7 +33,6 @@ class ChemLABLexer:
         r'[A-Za-z\?_][A-Za-z0-9\?_]*'
         reservedTokens = dict(toks.reserved, **(toks.supported_units))
         reservedTokens.update(toks.unit_prefix)
-        reservedTokens.update(toks.combination_unit_prefix)
         t.type = reservedTokens.get(t.value, 'Idtok')
         if type(t.type) is tuple:
             t.value = t.type

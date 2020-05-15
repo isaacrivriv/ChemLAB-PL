@@ -5,15 +5,19 @@ def convertTo(el, num, Unit, newUnit):
     ### need to redo with the parser
 
     if(Unit in unit_prefix and newUnit in unit_prefix):
-
         result = convertPrefix(num,Unit,newUnit)
-        print("Result:    " + str(result)+" "+ newUnit)
+        print("Result is: " + str(result))
     elif (Unit in supported_units and newUnit in supported_units):
-
         result = convertUnit(el, num,Unit,newUnit)
-        print("Result" + str(result)+" "+ newUnit)
+        print("Result is: "+ str(result))
+    elif(Unit == 'None'):
+        Unit='base'
+        result = convertPrefix(num,Unit,newUnit)
+    elif(newUnit=='None'):
+        newUnit='base'
+        result = convertPrefix(num,Unit,newUnit)
     else:
-        raise TypeError("Invalid Units is :  " + str(type(Unit)) )
+        raise TypeError("Invalid Units")
     return result
 
 def convertWeight(el ,num, Unit, newUnit):
@@ -56,6 +60,7 @@ pre = {'G': 10**9,  # GIGA
 'k': 10**3,  # KILO
 'h': 10**2,  # HECTOR
 'da': 10**1,  # DEKA
+'base':1,
 'd': 10**(-1),  # DECI
 'c': 10**(-2),  # CENTI
 'm': 10**(-3),  # MILLI
@@ -66,37 +71,7 @@ pre = {'G': 10**9,  # GIGA
 }
 def convertPrefix(num,Unit,newUnit):
     CNum = num * pre[Unit]
-    if (newUnit =='G'):
-        result = CNum * (10**-9)
-    if (newUnit=='M'):
-        result = CNum * (10**-6)
-    if (newUnit=='k'):
-        result =CNum * (10**-3)
-    if (newUnit=='h'):
-        result = CNum * (10**-2)
-    if (newUnit=='da'):
-        result = CNum * (10**-1)
-
-    if (newUnit=='d'):
-        result = CNum * (10**(1))
-
-    if (newUnit=='c'):
-        result = CNum * (10**(2))
-
-    if (newUnit=='m'):
-        result = CNum * (10**(3))
-
-    if (newUnit=='u'):
-        result = CNum * (10**(6))
-
-    if (newUnit=='n'):
-        result = CNum * (10**(9))
-
-    if (newUnit=='p'):
-        result = CNum * (10**(12))
-
-    if (newUnit=='f'):
-        result = CNum * (10**(15))
+    result = CNum/pre[newUnit]
     return result
 
 Longitud = {'ft','me','mi'}
@@ -110,8 +85,6 @@ def convertUnit(el, num , Unit,newUnit):
         result = convertWeight(el,num, Unit,newUnit)
     elif (Unit in Temp):
         result = convertTemp(num, Unit,newUnit)
-
-
     return result
 
 def convertLong(num, Unit,newUnit):

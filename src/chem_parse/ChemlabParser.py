@@ -148,7 +148,16 @@ class ChemlabParser:
                     print("----convert: " + str(p[3]) + " ; value: " + str(p[6]) + " from: " + str(
                         p[8]) + " ; to: " + str(p[10]))
 
-            p[0]["value"] = feature.convertTo(p[3],p[6],(p[8])[0],(p[10])[0])
+            #case where theres no prefix
+            elemVar = self.variables.get(p[3])
+            if((p[8])[0]=='None' and ((p[10])[0])=='None'):
+                p[0]["value"] = feature.convertTo(elemVar,p[6],(p[8])[1],(p[10])[1])
+
+            else:
+                    ConvertPrefix = feature.convertTo(elemVar,p[6],(p[8])[0],(p[10])[0])
+                    p[0]["value"]  = feature.convertTo(elemVar,ConvertPrefix,(p[8])[1],(p[10])[1])
+
+
         elif p[1] == 'balance':
             reac = ChemicalEquation.Reactant(tuple(p[3]))
             prod = ChemicalEquation.Product(tuple(p[5]))
@@ -237,12 +246,10 @@ class ChemlabParser:
         # this
         if self.trace:
             print("--Unit")
-        if type(p[1]) is not tuple:
-            p[1] = tuple([p[1]])
         if len(p) > 2:
-            p[0] = p[1] + p[2]
+            p[0]= (p[1],p[2])
         else:
-            p[0] = p[1]
+            p[0]= ("None",p[1])
         if self.trace:
             print("----Val: " + str(p[0]))
 

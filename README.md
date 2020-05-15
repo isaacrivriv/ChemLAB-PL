@@ -7,24 +7,19 @@ Chemistry is a part of every student's curriculum, whether as a mandatory class 
 
 Some of the language features included are:
 - Conversions
-- element bonding
-- balancing equations and verifying if an equation is balanced
+- element and compound bonding
+- balancing and verifying balancing
 - basic comparation and algebraic expressions
-- Immutability of variables
-- Function composition
 
 ### Examples
 
-Using ChemLAB we can easily bond elements and get details of balancing the equation like so:
+Using ChemLAB we can easily bond elements, balance the result and get the resulting details of the balanced compound like so:
 ```
-  [elem1=form(1)&form(8);]
-  [balance(elem1 -> elem1)]
-```
-
-We can also easily convert mass and to mols of an element like so
-```
-  [detail(convert(form(2), 2.9, g, mol))]
+  [elem1=form(1)&form(8)]
+  [elem1=elem1|elem1]
+  [detail(elem1)]
 ```
 **More examples will be added as we work through our implementation**
 
 Try it out! Just clone our repo and start programming yourself!
+

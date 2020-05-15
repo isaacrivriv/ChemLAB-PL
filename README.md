@@ -25,6 +25,5 @@ We can also easily convert mass and to mols of an element like so
 ```
   [detail(convert(form(2), 2.9, g, mol))]
 ```
-**More examples will be added as we work through our implementation**
 
 Try it out! Just clone our repo and start programming yourself!

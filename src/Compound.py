@@ -1,10 +1,9 @@
 class Compound:
 
-    def __init__(self, elements, bond_type):
+    def __init__(self, elements, bond_type=None):
         # a dictionary with elements as keys and the number of atoms as values
         # i.e. {'H': 2, 'O': 1}
         self.elements = elements
-        self.mass = self.calculate_mass()       # given as a tuple (mass quantity, mass unit)
         if bond_type == 'covalent':
             self.type = 'molecule'
         elif bond_type == 'ionic':
@@ -22,10 +21,9 @@ class Compound:
                 s += f'{x}{y}'
             else:
                 s += f'{x}'
-            s += f' , '
-        return s.rstrip().translate(substring) + f'] \ttype: {self.type}'
+        return s.rstrip().translate(substring) + ']'
 
-    def calculate_mass(self):
+    def mass(self):
         mass = 0
         for e in self.elements:
             mass += e.dictionary['atomic_weight'] * self.elements[e]  # e is wrong, must be a number
@@ -35,7 +33,7 @@ class Compound:
         if e not in self.elements:
             raise ValueError(str(e) + " is not part of this compound.")
 
-        return e.dictionary['atomic_weight'] / self.mass[0] * 100, '%'
+        return e.dictionary['atomic_weight'] / self.mass()[0] * 100, '%'
 
     def convertToBalanceFormat(self):
         copy = {}

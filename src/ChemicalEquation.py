@@ -1,5 +1,7 @@
 from sympy import Matrix, linsolve
 
+from Compound import Compound
+
 
 class EquationSide:
 
@@ -44,10 +46,7 @@ class EquationSide:
     def __str__(self):
         string = ""
         for coeff, compound in zip(self.coefficients, self.compounds):
-            term = "%d(" % coeff
-            for element in compound:
-                term = term + element + "_%d" % compound[element]
-            term = term + ")"
+            term = str(coeff) + str(Compound(compound))
             if string != "":
                 string = string + " + " + term
             else:
@@ -148,4 +147,4 @@ class ChemicalEquation:
         self.products.coefficients = new_coefficients[self.products.num_terms:]
 
     def __str__(self):
-        return self.reactants.__str__() + " --> " + self.products.__str__()
+        return str(self.reactants) + " --> " + str(self.products)

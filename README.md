@@ -27,3 +27,8 @@ We can also easily convert units such as mass to moles of an element like so:
 ```
 
 Try it out! Just clone our repo and start programming yourself!
+
+### Additional resources
+
+Demo video: https://youtu.be/iVr3ef0qeU0
+Commercial video: https://youtu.be/TNzitqeVy5g
